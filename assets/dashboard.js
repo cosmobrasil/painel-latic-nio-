@@ -11,7 +11,7 @@
   // Resolve base API URL dynamically
   const API_BASE = isLocal 
     ? "http://localhost:3001" 
-    : (isNetlify ? "" : "https://formulario-production-8df7.up.railway.app");
+    : "https://formulario-production-8df7.up.railway.app";
 
   // DOM Elements
   const gate = document.querySelector("#gate");
