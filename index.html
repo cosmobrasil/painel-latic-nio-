@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Gerencial - Circularidade de Laticínios</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/app.css" />
+  </head>
+  <body>
+    <!-- Access Gate Screen -->
+    <div id="gate" class="gate-shell">
+      <div class="gate-card">
+        <div class="gate-logo">LC</div>
+        <h2>Painel Gerencial</h2>
+        <p class="gate-subtitle">Insira a senha de administrador para acessar os relatórios e diagnósticos.</p>
+        
+        <form id="gate-form" class="gate-form">
+          <div class="input-group">
+            <label for="password">Senha Administrativa</label>
+            <input type="password" id="password" required placeholder="Digite a senha..." autocomplete="current-password" />
+          </div>
+          <div id="gate-error" class="gate-error hidden"></div>
+          <button type="submit" class="btn btn-primary">Acessar Painel</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Main Dashboard Application Wrapper -->
+    <div class="wrap locked">
+      <header class="app-header">
+        <div class="header-main">
+          <div class="brand-group">
+            <div class="app-logo">LC</div>
+            <div>
+              <div class="app-brand">CosmoBrasil 2.0</div>
+              <h1>Dashboard Gerencial</h1>
+            </div>
+          </div>
+          
+          <div class="header-actions">
+            <button id="btn-reload" class="btn btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              Atualizar Dados
+            </button>
+            <button id="btn-logout" class="btn btn-outline">Sair</button>
+          </div>
+        </div>
+        
+        <p class="app-subtitle">
+          Painel administrativo de gerenciamento dos formulários respondidos pelos usuários do diagnóstico de circularidade de laticínios.
+        </p>
+      </header>
+
+      <!-- Stats overview row -->
+      <section class="overview-grid">
+        <div class="stat-card">
+          <span class="stat-label">Total de Respostas</span>
+          <strong id="stat-total-respostas">0</strong>
+          <span class="stat-desc">Diagnósticos salvos no banco</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Média do IGC</span>
+          <strong id="stat-media-igc">0.0%</strong>
+          <span class="stat-desc">Maturidade de circularidade média</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Média do PCM</span>
+          <strong id="stat-media-pcm">0.0%</strong>
+          <span class="stat-desc">Pontuação por critério média</span>
+        </div>
+      </section>
+
+      <!-- Main Responses Table Section -->
+      <main class="panel table-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Diagnósticos Submetidos</h2>
+            <p class="muted">Lista de todas as respostas recebidas com links diretos para os relatórios finais.</p>
+          </div>
+          <div class="search-box">
+            <input type="text" id="search-input" placeholder="Filtrar por empresa, responsável ou cidade..." />
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="responses-table">
+            <thead>
+              <tr>
+                <th>Empresa</th>
+                <th>Responsável</th>
+                <th>Cidade / UF</th>
+                <th>Produto</th>
+                <th>Data / Hora</th>
+                <th class="text-center">IGC</th>
+                <th class="text-center">PCM</th>
+                <th class="text-right">Relatórios</th>
+              </tr>
+            </thead>
+            <tbody id="responses-body">
+              <tr>
+                <td colspan="8" class="table-loading">Carregando dados do servidor...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+      
+      <footer class="app-footer">
+        <p>© 2026 CosmoBrasil 2.0 - Laticínios Circular. Todos os direitos reservados.</p>
+      </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./assets/dashboard.js"></script>
+  </body>
+</html>
