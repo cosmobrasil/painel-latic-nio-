@@ -13,6 +13,27 @@
     ? "http://localhost:3001" 
     : "https://formulario-production-8df7.up.railway.app";
 
+  // --- Utilitario de timeout para fetch ---
+  const FETCH_TIMEOUT_MS = 15000;
+
+  function fetchComTimeout(url, options = {}, timeoutMs = FETCH_TIMEOUT_MS) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url, { ...options, signal: controller.signal })
+      .finally(() => clearTimeout(timer));
+  }
+
+  async function fetchComRetry(url, options = {}, retries = 2) {
+    for (let i = 0; i <= retries; i++) {
+      try {
+        return await fetchComTimeout(url, options);
+      } catch (error) {
+        if (i === retries) throw error;
+        await new Promise(r => setTimeout(r, 1000 * (i + 1)));
+      }
+    }
+  }
+
   // DOM Elements
   const gate = document.querySelector("#gate");
   const gateForm = document.querySelector("#gate-form");
@@ -92,10 +113,9 @@
     return `${Number(value || 0).toFixed(1)}%`;
   }
 
-  // Format PCM score to percent helper
+  // PCM is normalized by the API using each report's actual maximum score.
   function formatPcmPercent(value) {
-    const percent = (Number(value || 0) / 2) * 100;
-    return `${percent.toFixed(1)}%`;
+    return `${Number(value || 0).toFixed(1)}%`;
   }
 
   // Get score class for colors
@@ -114,7 +134,7 @@
     const url = `${API_BASE}/api/admin/respostas?token=${encodeURIComponent(token)}`;
 
     try {
-      const response = await fetch(url);
+      const response = await fetchComTimeout(url);
       const resData = await response.json();
 
       if (!response.ok) {
@@ -156,7 +176,10 @@
 
     const total = allResponses.length;
     const sumIgc = allResponses.reduce((acc, curr) => acc + Number(curr.igc || 0), 0);
-    const sumPcm = allResponses.reduce((acc, curr) => acc + Number(curr.pcm || 0), 0);
+    const sumPcm = allResponses.reduce((acc, curr) => {
+      const pcmPercent = curr.pcmPercent ?? ((Number(curr.pcm || 0) / 2) * 100);
+      return acc + pcmPercent;
+    }, 0);
 
     const avgIgc = sumIgc / total;
     const avgPcm = sumPcm / total;
@@ -210,8 +233,8 @@
             </span>
           </td>
           <td class="text-center">
-            <span class="score-badge ${getScoreClass(row.igc)}">
-              ${formatPcmPercent(row.pcm)}
+            <span class="score-badge ${getScoreClass(row.pcmPercent ?? ((Number(row.pcm || 0) / 2) * 100))}">
+              ${formatPcmPercent(row.pcmPercent ?? ((Number(row.pcm || 0) / 2) * 100))}
             </span>
           </td>
           <td class="text-right">
