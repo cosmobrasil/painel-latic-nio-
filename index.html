@@ -80,6 +80,7 @@
           <div>
             <h2>Diagnósticos Submetidos</h2>
             <p class="muted">Lista de todas as respostas recebidas com links diretos para os relatórios finais.</p>
+            <p class="muted">Comparabilidade: a alternativa de recuperação energética foi removida do questionário atual. Use a versão e a data da resposta ao comparar resultados históricos.</p>
           </div>
           <div class="search-box">
             <input type="text" id="search-input" placeholder="Filtrar por empresa, responsável ou cidade..." />
@@ -95,6 +96,7 @@
                 <th>Cidade / UF</th>
                 <th>Produto</th>
                 <th>Data / Hora</th>
+                <th class="text-center">Versão</th>
                 <th class="text-center">IGC</th>
                 <th class="text-center">PCM</th>
                 <th class="text-right">Relatórios</th>
@@ -102,7 +104,7 @@
             </thead>
             <tbody id="responses-body">
               <tr>
-                <td colspan="8" class="table-loading">Carregando dados do servidor...</td>
+                <td colspan="9" class="table-loading">Carregando dados do servidor...</td>
               </tr>
             </tbody>
           </table>

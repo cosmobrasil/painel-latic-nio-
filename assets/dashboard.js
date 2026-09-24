@@ -128,7 +128,7 @@
 
   // Load responses from backend
   async function carregar() {
-    responsesBody.innerHTML = `<tr><td colspan="8" class="table-loading">Carregando dados do servidor...</td></tr>`;
+    responsesBody.innerHTML = `<tr><td colspan="9" class="table-loading">Carregando dados do servidor...</td></tr>`;
     
     const token = sessionStorage.getItem(ACCESS_TOKEN_KEY) || ADMIN_PASSWORD;
     const url = `${API_BASE}/api/admin/respostas?token=${encodeURIComponent(token)}`;
@@ -155,7 +155,7 @@
       } else {
         responsesBody.innerHTML = `
           <tr>
-            <td colspan="8" class="table-loading" style="color: var(--error)">
+              <td colspan="9" class="table-loading" style="color: var(--error)">
               Erro: ${err.message}<br/>
               <span style="font-size: 0.8rem; color: var(--muted)">Verifique se o backend está rodando em ${API_BASE}</span>
             </td>
@@ -207,7 +207,7 @@
     if (!filtered.length) {
       responsesBody.innerHTML = `
         <tr>
-          <td colspan="8" class="table-loading">Nenhum diagnóstico correspondente encontrado.</td>
+          <td colspan="9" class="table-loading">Nenhum diagnóstico correspondente encontrado.</td>
         </tr>
       `;
       return;
@@ -227,6 +227,7 @@
           <td>${escapeHtml(row.cidade)} / ${escapeHtml(row.uf)}</td>
           <td>${escapeHtml(row.produto)}</td>
           <td>${escapeHtml(row.dataHora)}</td>
+          <td class="text-center">${escapeHtml(row.questionnaireVersion || "Legado")}</td>
           <td class="text-center">
             <span class="score-badge ${getScoreClass(row.igc)}">
               ${formatPercent(row.igc)}
